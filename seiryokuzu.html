@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自民党勢力図 2026秋</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 官邸からの「距離」を左→右（スマホでは上→下）の4ゾーンで表す勢力図。上に議席の帯、下に総裁選の票と旧派閥の現状。 */
+:root{
+  --bg:#f3f4f6; --surface:#ffffff; --ink:#1b2233; --muted:#5a6275; --line:#d9dce4;
+  --core:#2c3e8f; --core-soft:#e4e8f6;
+  --near:#3e6f8a; --near-soft:#e2edf2;
+  --mid:#7a6a2e; --mid-soft:#f2eedc;
+  --far:#9a4a2f; --far-soft:#f5e6df;
+  --seat-ldp:#2c3e8f; --seat-ishin:#5c8fa8; --seat-opp:#a9aebb; --seat-opp2:#c8ccd5; --seat-opp3:#8e94a4; --seat-vac:repeating-linear-gradient(45deg,#c8ccd5 0 2px,transparent 2px 4px);
+  --display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151d; --surface:#1a1f2b; --ink:#e7e9ef; --muted:#9aa1b2; --line:#2d3343;
+  --core:#8fa2ec; --core-soft:#232b48; --near:#86b8d0; --near-soft:#1d2f39;
+  --mid:#d4c07a; --mid-soft:#2e2a1a; --far:#e39a7c; --far-soft:#36231c;
+  --seat-ldp:#7d91e3; --seat-ishin:#6fa5be; --seat-opp:#5b6274; --seat-opp2:#434a5a; --seat-opp3:#6f7689; --seat-vac:repeating-linear-gradient(45deg,#434a5a 0 2px,transparent 2px 4px); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151d; --surface:#1a1f2b; --ink:#e7e9ef; --muted:#9aa1b2; --line:#2d3343;
+  --core:#8fa2ec; --core-soft:#232b48; --near:#86b8d0; --near-soft:#1d2f39;
+  --mid:#d4c07a; --mid-soft:#2e2a1a; --far:#e39a7c; --far-soft:#36231c;
+  --seat-ldp:#7d91e3; --seat-ishin:#6fa5be; --seat-opp:#5b6274; --seat-opp2:#434a5a; --seat-opp3:#6f7689; --seat-vac:repeating-linear-gradient(45deg,#434a5a 0 2px,transparent 2px 4px); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(28px,6vw,46px);font-weight:800;letter-spacing:.02em}
+h2{font-size:clamp(19px,3.4vw,24px);font-weight:800}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.lede{color:var(--muted);max-width:62ch}
+header{display:flex;flex-direction:column;gap:10px}
+.head-meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
+.head-meta b{color:var(--ink);font-weight:700}
+section{display:flex;flex-direction:column;gap:14px}
+
+/* 議席帯 */
+.seatbar{position:relative;display:flex;height:34px;border-radius:4px;overflow:visible;background:var(--line)}
+.seg{height:100%}
+.seg.ldp{background:var(--seat-ldp);border-radius:4px 0 0 4px}
+.seg.ishin{background:var(--seat-ishin)}
+.seg.opp{background:var(--seat-opp)}
+.seg.opp3{background:var(--seat-opp3)}
+.seg.opp2{background:var(--seat-opp2);border-radius:0 4px 4px 0}
+.seg.vac{background:var(--seat-vac);border-radius:0 4px 4px 0}
+.mark{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.mark span{position:absolute;top:100%;margin-top:4px;transform:translateX(-50%);white-space:nowrap;font-size:11px;color:var(--muted)}
+.seat-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-top:22px;font-variant-numeric:tabular-nums}
+.seat-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.note{font-size:13px;color:var(--muted)}
+
+/* 勢力図 */
+.axis{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);letter-spacing:.08em}
+.axis .rule{flex:1;height:2px;background:linear-gradient(90deg,var(--core),var(--near),var(--mid),var(--far))}
+.map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.zone{border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0;border-top:4px solid}
+.zone.core{background:var(--core-soft);border-color:var(--core)}
+.zone.near{background:var(--near-soft);border-color:var(--near)}
+.zone.mid{background:var(--mid-soft);border-color:var(--mid)}
+.zone.far{background:var(--far-soft);border-color:var(--far)}
+.zone h3{margin:0;font-family:var(--display);font-size:17px;font-weight:800}
+.zone .zsub{font-size:12px;color:var(--muted);margin-top:-8px}
+.grp{display:flex;flex-direction:column;gap:6px}
+.grp-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.p{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.p .nm{font-weight:700;font-size:15px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.p .role{font-size:13px}
+.p .why{font-size:12px;color:var(--muted);line-height:1.55}
+.tag{font-size:11px;font-weight:500;padding:0 6px;border-radius:3px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.p.top{border-color:var(--core);border-width:2px}
+.p.top .nm{font-family:var(--display);font-size:20px}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.block .big{font-family:var(--display);font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* 総裁選 */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:460px;font-variant-numeric:tabular-nums;font-size:14px;background:var(--surface)}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:12px;color:var(--muted);font-weight:700}
+.bar{display:inline-block;height:8px;background:var(--core);border-radius:2px;vertical-align:middle;margin-left:6px}
+tr.win td{font-weight:700}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.fact h4{margin:0;font-size:14px}
+.fact p{font-size:13px;color:var(--muted)}
+.sources{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sources a{color:var(--core);word-break:break-all}
+a:focus-visible{outline:2px solid var(--core);outline-offset:2px}
+
+@media (max-width:900px){.map{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){
+  .map{grid-template-columns:1fr}
+  .axis{flex-direction:column;align-items:flex-start}
+  .axis .rule{width:100%;height:2px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">2026年10月22日時点 ・ 公開報道にもとづく整理</div>
+  <h1>自民党勢力図 2026秋</h1>
+  <p class="lede">2月の衆院選で単独3分の2を得た高市政権が、9月の人事で骨格を固めた後の党内配置。官邸からの距離で4つのゾーンに並べている。次の焦点は2027年9月の総裁選。</p>
+  <div class="head-meta">
+    <span>総裁・首相 <b>高市早苗</b>（第29代総裁）</span>
+    <span>連立 <b>自民・維新</b>（9月から維新が入閣）</span>
+    <span>総裁任期 <b>2027年9月まで</b></span>
+  </div>
+</header>
+
+<section aria-labelledby="h-seat">
+  <h2 id="h-seat">衆院の党派別議席（2026年9月下旬時点）</h2>
+  <div class="seatbar" role="img" aria-label="衆院465議席のうち自民315、維新36、公明28、民主改革の会18、国民民主28、そのほか39、欠員1。3分の2ラインは310">
+    <div class="seg ldp" style="width:calc(315/465*100%)"></div>
+    <div class="seg ishin" style="width:calc(36/465*100%)"></div>
+    <div class="seg opp" style="width:calc(28/465*100%)"></div>
+    <div class="seg opp3" style="width:calc(19/465*100%)"></div>
+    <div class="seg opp2" style="width:calc(66/465*100%);border-radius:0"></div>
+    <div class="seg vac" style="width:calc(1/465*100%)"></div>
+    <div class="mark" style="left:calc(233/465*100%)"><span style="transform:translateX(calc(-100% - 3px))">過半数 233</span></div>
+    <div class="mark" style="left:calc(310/465*100%)"><span style="transform:translateX(3px)">3分の2 310</span></div>
+  </div>
+  <div class="seat-legend">
+    <span><i style="background:var(--seat-ldp)"></i>自民 315</span>
+    <span><i style="background:var(--seat-ishin)"></i>維新 36</span>
+    <span><i style="background:var(--seat-opp)"></i>公明 28</span>
+    <span><i style="background:var(--seat-opp3)"></i>民主改革の会 18・中道改革連合 1</span>
+    <span><i style="background:var(--seat-opp2)"></i>国民民主 28・参政 15・チームみらい 11・共産 4・いのちの党（旧れいわ）1・減税ゆうこく 1・無所属 6</span>
+    <span><i style="background:var(--seat-vac)"></i>欠員 1</span>
+  </div>
+  <p class="note">党籍で数えた議席。2月の衆院選の結果は自民316、中道改革連合49、維新36、国民民主28、参政15、チームみらい11、共産4、れいわ1、減税ゆうこく1、無所属4。自民の316は単独政党として過去最多で、9月17日に渡辺孝一氏（比例北海道）が死去したあとも、比例名簿に繰り上げ対象が残っておらず欠員のまま315。それでも3分の2の310を単独で上回る。与党（自民・維新）は計351。参院は少数与党のままで、衆院の再可決（3分の2）が法案を通す手段になっている。</p>
+  <p class="note">野党第1党だった中道改革連合（立憲民主党と公明党の衆院議員が1月に結成）は、衆院選の大敗のあと3党合流の協議が8月末に決裂し、9月16日に1人を残して全員が離党した。公明出身の28人は公明党に復党し（衆院副議長の石井啓一氏を含む）、立憲出身の議員は新党「民主改革の会」（代表・小川淳也）をつくった。残務処理のため、渡辺創氏1人だけが中道に残っている。無所属の6人は、民主改革の会に入らなかった泉健太氏と大島敦氏、無所属で当選した緒方林太郎氏らである。れいわ新選組は党名を「いのちの党」に改めた。</p>
+  <p class="note">国会の会派で見ると構図が変わる。公明（副議長の石井氏を除く27人）、民主改革の会、中道に大島氏を加えた統一会派「中道」が47人で、野党第1会派を保っている。泉氏と緒方氏は会派「志士の会」（2人）を組んだ。衆議院の会派別一覧（9月28日現在）は、自民315・中道47・維新36・国民28・参政15・みらい11・共産4・志士の会2・無所属6・欠員1。</p>
+</section>
+
+<section aria-labelledby="h-map">
+  <h2 id="h-map">党内の配置</h2>
+  <div class="axis"><span>官邸に近い</span><span class="rule"></span><span>官邸から遠い</span></div>
+  <div class="map">
+
+    <div class="zone core">
+      <h3>中枢</h3>
+      <div class="zsub">総裁・官邸と、党運営の実務</div>
+      <div class="p top"><span class="nm">高市早苗</span><span class="role">総裁・首相</span><span class="why">25年総裁選は決選で小泉氏を破る。党員票で優位</span></div>
+      <div class="grp"><div class="grp-label">官邸</div>
+        <div class="p"><span class="nm">木原稔</span><span class="role">官房長官（留任）</span><span class="why">最側近と報じられる</span></div>
+      </div>
+      <div class="grp"><div class="grp-label">党執行部（9月16日決定）</div>
+        <div class="p"><span class="nm">西村康稔 <span class="tag">旧安倍派</span></span><span class="role">選対委員長（再任）</span><span class="why">沖縄県知事選の勝利を受けて続投</span></div>
+        <div class="p"><span class="nm">萩生田光一 <span class="tag">旧安倍派</span></span><span class="role">幹事長代行</span><span class="why">留任の方向と報道。官邸と維新をつなぐパイプ役</span></div>
+        <div class="p"><span class="nm">村井英樹 <span class="tag">旧岸田派</span></span><span class="role">国対委員長（新任・46歳）</span><span class="why">閣僚経験なし。国会運営を官邸主導で進める狙いとの見方</span></div>
+      </div>
+    </div>
+
+    <div class="zone near">
+      <h3>主流の支え</h3>
+      <div class="zsub">政権を生んだ側。発言力も大きい</div>
+      <div class="block"><div class="grp-label">麻生派（志公会）</div><div class="big">60人</div><div class="why note">党内で唯一残る派閥。衆院選後に新人ら18人が加わった</div></div>
+      <div class="p"><span class="nm">麻生太郎 <span class="tag">麻生派会長</span></span><span class="role">副総裁（続投）</span><span class="why">25年総裁選の決選で高市氏を支援</span></div>
+      <div class="p"><span class="nm">鈴木俊一 <span class="tag">麻生派</span></span><span class="role">幹事長（再任）</span><span class="why">麻生氏の義弟。衆院選大勝の実績で続投</span></div>
+      <div class="p"><span class="nm">森英介 <span class="tag">麻生派</span></span><span class="role">衆院議長</span><span class="why">派閥の事務総長から議長へ</span></div>
+      <div class="p"><span class="nm">河野太郎 <span class="tag">麻生派</span></span><span class="role">派内の有力後継候補</span><span class="why">改革志向で、保守色の強い麻生氏とは路線が異なる</span></div>
+      <div class="grp"><div class="grp-label">連立相手</div>
+        <div class="p"><span class="nm">日本維新の会</span><span class="role">吉村洋文代表 ／ 中司宏 規制改革相</span><span class="why">閣外協力から9月に初入閣へ転換</span></div>
+      </div>
+    </div>
+
+    <div class="zone mid">
+      <h3>取り込まれたライバル</h3>
+      <div class="zsub">「ポスト高市」候補を要職で抱える</div>
+      <div class="p"><span class="nm">小泉進次郎 <span class="tag">無派閥</span></span><span class="role">防衛相（留任）</span><span class="why">25年総裁選は1回目の議員票で首位、決選で敗れる</span></div>
+      <div class="p"><span class="nm">小林鷹之 <span class="tag">旧二階派</span></span><span class="role">政調会長（再任）</span><span class="why">重要閣僚案もあったが政策調整役として続投</span></div>
+      <div class="p"><span class="nm">茂木敏充 <span class="tag">旧茂木派</span></span><span class="role">外相（留任）</span><span class="why">25年総裁選に出馬</span></div>
+      <div class="p"><span class="nm">梶山弘志 <span class="tag">無派閥</span></span><span class="role">総務会長（国対委員長から）</span><span class="why">党四役に起用</span></div>
+      <div class="grp"><div class="grp-label">改造内閣で目を引いた起用</div>
+        <div class="p"><span class="nm">簗和生・関芳弘 <span class="tag">旧安倍派</span></span><span class="role">農相・文科相（初入閣）</span><span class="why">裏金事件で党処分を受けた議員の初の閣僚起用。簗氏は10月15日に農相を更迭され、後任は武部新氏</span></div>
+        <div class="p"><span class="nm">細野豪志</span><span class="role">復興相</span><span class="why">民主党政権で環境相を務めた経歴</span></div>
+      </div>
+    </div>
+
+    <div class="zone far">
+      <h3>外に出た・外された</h3>
+      <div class="zsub">非主流が広がる芽と見る向きも</div>
+      <div class="p"><span class="nm">林芳正 <span class="tag">旧岸田派</span></span><span class="role">前総務相（閣外へ）</span><span class="why">25年総裁選3位・議員票2位。人事アンケートに「希望なし」と回答。総裁選への対応は「時期尚早」</span></div>
+      <div class="grp"><div class="grp-label">参院自民</div>
+        <div class="p"><span class="nm">石井準一</span><span class="role">前参院幹事長（再任見送り）</span><span class="why">野党に太いパイプを持ち、少数与党の参院を回してきた。4月に「自民参議院クラブ」を設立</span></div>
+        <div class="p"><span class="nm">松山政司</span><span class="role">参院議員会長</span><span class="why">石井氏に再任しない意向を伝えた</span></div>
+      </div>
+      <div class="block"><div class="grp-label">旧派閥の「政策集団」</div><p class="why note">解散した旧派閥が定例会合を再開し、旧派閥を継ぐグループも発足。首相側は警戒していると報じられる</p></div>
+    </div>
+
+  </div>
+  <p class="note">ゾーン分けは各社報道の構図（ライバルの取り込み、林氏の離脱、参院人事）をもとにした整理で、本人たちの自己規定ではない。旧派閥の表記は解散前の所属。</p>
+</section>
+
+<section aria-labelledby="h-vote">
+  <h2 id="h-vote">前回総裁選（2025年10月4日）</h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>候補</th><th>1回目 計</th><th>議員票</th><th>党員票</th><th>決選 計</th><th>議員票</th><th>地方票</th></tr></thead>
+    <tbody>
+      <tr class="win"><td>高市早苗</td><td>183<span class="bar" style="width:calc(183/185*48px)"></span></td><td>64</td><td>119</td><td>185</td><td>149</td><td>36</td></tr>
+      <tr><td>小泉進次郎</td><td>164<span class="bar" style="width:calc(164/185*48px)"></span></td><td>80</td><td>84</td><td>156</td><td>145</td><td>11</td></tr>
+      <tr><td>林芳正</td><td>134<span class="bar" style="width:calc(134/185*48px)"></span></td><td>72</td><td>62</td><td>―</td><td>―</td><td>―</td></tr>
+      <tr><td>小林鷹之・茂木敏充</td><td colspan="3" style="text-align:left;color:var(--muted)">伸び悩み（数値は割愛）</td><td>―</td><td>―</td><td>―</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">高市氏は議員票では3位だったが、党員票で首位に立ち、決選では議員票でも小泉氏を4票上回った。</p>
+</section>
+
+<section aria-labelledby="h-facts">
+  <h2 id="h-facts">押さえておきたい構図</h2>
+  <div class="facts">
+    <div class="fact"><h4>派閥は一つだけ、でも消えていない</h4><p>裏金事件で安倍・岸田・茂木・二階・森山の各派は解散し、残るのは麻生派のみ。一方で衆院選後、旧派閥は定例会合や政策集団の形で再結集しつつある。</p></div>
+    <div class="fact"><h4>人事の狙いは無投票再選との見方</h4><p>9月の改造は骨格を維持しつつ総裁候補を要職で抱え込み、来秋の総裁選を無投票で乗り切る態勢づくりだと報じられた。</p></div>
+    <div class="fact"><h4>首相と麻生氏の距離</h4><p>政権の生みの親である麻生氏に解散を事前に伝えなかったとされ、両者の関係に揺らぎを指摘する報道もある。幹事長再任は麻生氏との協調維持の意味合いが大きい。</p></div>
+    <div class="fact"><h4>参院がボトルネック</h4><p>衆院は巨大与党でも参院は少数与党。野党パイプ役だった参院幹事長の交代が、臨時国会の運営にどう響くかが注目点。</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-src">
+  <h2 id="h-src">出典</h2>
+  <div class="sources">
+    <a href="https://kumanichi.com/articles/2036399">自民新執行部が発足（共同通信 2026/9/16）</a>
+    <a href="https://kumanichi.com/articles/2036885">高市首相が第2次内閣改造（共同通信 2026/9/17）</a>
+    <a href="https://kumanichi.com/articles/2033795">萩生田幹事長代行、留任で調整（共同通信 2026/9/8）</a>
+    <a href="https://kumanichi.com/articles/2031893">鈴木幹事長の再任論強まる（共同通信 2026/9/2）</a>
+    <a href="https://kumanichi.com/articles/2035973">石井参院幹事長の再任見送り（共同通信 2026/9/15）</a>
+    <a href="https://kumanichi.com/articles/2047863">林氏、人事で「希望なし」（共同通信 2026/10/18）</a>
+    <a href="https://www.j-cast.com/2026/09/18518041.html">閣外に出て勝負…林芳正・前総務相（J-CAST 2026/9/18）</a>
+    <a href="https://www.sakigake.jp/news/article/20260219CO0132/">麻生派18人加入、計60人に（共同通信 2026/2/19）</a>
+    <a href="https://www.nikkan-gendai.com/articles/view/news/393963">派閥と選挙区 後継者問題（日刊ゲンダイ）</a>
+    <a href="https://www.hokkaido-np.co.jp/article/1307106/">自民に「疑似派閥」続々（北海道新聞）</a>
+    <a href="https://www.data-max.co.jp/article/83281">麻生氏と首相の関係（データ・マックス）</a>
+    <a href="https://www.nippon.com/ja/japan-data/h02703/">衆院選2026：自民歴史的大勝（nippon.com）</a>
+    <a href="https://www.sakigake.jp/news/article/20251004CO0009/">自民総裁選1回目の結果（共同通信 2025/10/4）</a>
+    <a href="https://kumanichi.com/articles/1909512">自民総裁に高市氏（共同通信 2025/10/4）</a>
+  </div>
+</section>
+</div>
+
+</body>
+</html>
