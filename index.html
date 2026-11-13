@@ -56,6 +56,13 @@ button{font:inherit;color:inherit}
 .lede{color:var(--muted);max-width:66ch}
 .note{font-size:13px;color:var(--muted);max-width:72ch}
 header{display:flex;flex-direction:column;gap:10px}
+.hmain,.hnotes{display:flex;flex-direction:column;gap:10px;min-width:0}
+@media (min-width:900px){
+  header{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px 40px;align-items:start}
+  .hmain .lede,.hnotes .note{max-width:none}
+  .hnotes{padding-top:22px}
+  header .totals{grid-column:1/-1}
+}
 .totals{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .totals b{color:var(--ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -280,11 +287,15 @@ button.prow{cursor:pointer} button.prow:hover{background:var(--soft)}
 
 <div class="wrap">
 <header>
+  <div class="hmain">
   <div class="eyebrow">2026年10月22日時点（議員の死去は11月13日まで反映） ・ 衆院は2月の第51回衆院選の当選者</div>
   <h1>自民党議員 派閥別名簿</h1>
   <p class="lede">衆参の自民党議員415人を、派閥、全員一覧、現在のポスト、族議員、経歴（当選同期・出身官庁・秘書歴）、血縁、閥族、地縁、総裁選の9つの切り口で見る名簿。議員を押すと、所属の根拠とポスト、親族、選挙区、外部の経歴ページへのリンクが開く。</p>
+  </div>
+  <div class="hnotes">
   <p class="note" id="memo"></p>
   <p class="note" style="border-left:3px solid var(--line);padding-left:10px">このページについて：公開情報（Wikipedia日本語版、自民党・首相官邸・衆参両院のサイト、各社報道）をもとに個人が作成した非公式の名簿です。派閥の「〜系」、族議員、閥族、秘書歴などの分類には作成者の推定や機械的な抽出が含まれ、誤りがありえます。2026年10月下旬時点の情報で、その後の変化は議員の死去を除き反映していません。各項目の出典と分類の方法はページ下部に記しています。</p>
+  </div>
   <div class="totals" id="totals"></div>
 </header>
 
