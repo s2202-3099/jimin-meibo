@@ -57,12 +57,7 @@ button{font:inherit;color:inherit}
 .note{font-size:13px;color:var(--muted);max-width:72ch}
 header{display:flex;flex-direction:column;gap:10px}
 .hmain,.hnotes{display:flex;flex-direction:column;gap:10px;min-width:0}
-@media (min-width:900px){
-  header{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px 40px;align-items:start}
-  .hmain .lede,.hnotes .note{max-width:none}
-  .hnotes{padding-top:22px}
-  header .totals{grid-column:1/-1}
-}
+header .lede,header .note{max-width:none}
 .totals{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .totals b{color:var(--ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
